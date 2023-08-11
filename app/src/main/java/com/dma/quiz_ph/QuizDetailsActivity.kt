@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
 import android.view.View
-import android.view.Window
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -23,6 +22,7 @@ import com.dma.quiz_ph.utils.DataStatus
 import com.dma.quiz_ph.utils.PreferenceHelper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 
 
 @AndroidEntryPoint
@@ -41,6 +41,7 @@ class QuizDetailsActivity : AppCompatActivity(), View.OnClickListener {
 
     private var allQuestionList: MutableList<QnAResponse.Question>? = null
     private var questionsToAnswer: MutableList<QnAResponse.Question> = ArrayList()
+    private var optionList: MutableList<String> = ArrayList()
 
     private var customLoading: CustomLoading? = null
 
@@ -114,6 +115,29 @@ class QuizDetailsActivity : AppCompatActivity(), View.OnClickListener {
             txtQstnNo.text = "Question: $questNum/$totalQuestionToAnswer"
             txtQstnPoint.text = "${questionsToAnswer[questNum - 1].score} point"
             txtQstn.text = questionsToAnswer[questNum - 1].question
+
+            /*optionList.add(questionsToAnswer[questNum - 1].answers.A)
+            optionList.add(questionsToAnswer[questNum - 1].answers.B)
+            optionList.add(questionsToAnswer[questNum - 1].answers.C)
+            optionList.add(questionsToAnswer[questNum - 1].answers.D)
+            val random : Int = getRandomInteger(optionList.size,0)
+
+            btnOptionOne.text = optionList[getRandomInteger(optionList.size,0)]
+            optionList.removeAt(getRandomInteger(optionList.size,0))
+            btnOptionTwo.text = optionList[getRandomInteger(optionList.size,0)]
+            optionList.removeAt(getRandomInteger(optionList.size,0))
+            if (questionsToAnswer[questNum - 1].answers.C == null) {
+                btnOptionThree.visibility = View.GONE
+                btnOptionFour.visibility = View.GONE
+            } else {
+                btnOptionThree.visibility = View.VISIBLE
+                btnOptionFour.visibility = View.VISIBLE
+                btnOptionThree.text = optionList[getRandomInteger(optionList.size,0)]
+                optionList.removeAt(getRandomInteger(optionList.size,0))
+                btnOptionFour.text = optionList[getRandomInteger(optionList.size,0)]
+                optionList.removeAt(getRandomInteger(optionList.size,0))
+            }*/
+
             btnOptionOne.text = questionsToAnswer[questNum - 1].answers.A
             btnOptionTwo.text = questionsToAnswer[questNum - 1].answers.B
             if (questionsToAnswer[questNum - 1].answers.C == null) {
@@ -131,18 +155,17 @@ class QuizDetailsActivity : AppCompatActivity(), View.OnClickListener {
                     .with(this@QuizDetailsActivity)
                     .load(questionsToAnswer[questNum-1].questionImageUrl)
                     .centerCrop()
-                    .placeholder(R.drawable.ph_logo)
-                    .into(binding.imgQstn);
+                    .into(imgQstn);
             } else{
-                binding.imgQstn.setBackgroundResource(R.drawable.ph_logo)
+                imgQstn.setBackgroundResource(R.drawable.ph_logo)
             }
-
 
         }
         canAnswer = true
         currentQuestion = questNum
         startTimer()
     }
+
 
     private fun startTimer() {
         val timeToAnswer: Long = 10
@@ -201,6 +224,7 @@ class QuizDetailsActivity : AppCompatActivity(), View.OnClickListener {
             allQuestionList!!.removeAt(randomNumber)
         }
     }
+
 
     private fun getRandomInteger(maximum: Int, minimum: Int): Int {
         return (Math.random() * (maximum - minimum)).toInt() + minimum
