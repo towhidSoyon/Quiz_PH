@@ -26,7 +26,5 @@ class QnARepository @Inject constructor(private val apiService: ApiService)  {
             emit(DataStatus.error(it.message.toString()))
         }
         .flowOn(Dispatchers.IO)
-    /*suspend fun getQna(): Response<QnAResponse>{
-        return apiService.getQnA()
-    }*/
+
 }

@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
 import android.view.View
+import android.view.Window
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -16,6 +18,7 @@ import com.dma.quiz_ph.Model.QnAResponse
 import com.dma.quiz_ph.ViewModel.QnAViewModel
 import com.dma.quiz_ph.databinding.ActivityQuizDetailsBinding
 import com.dma.quiz_ph.utils.Constant
+import com.dma.quiz_ph.utils.CustomLoading
 import com.dma.quiz_ph.utils.DataStatus
 import com.dma.quiz_ph.utils.PreferenceHelper
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,12 +42,22 @@ class QuizDetailsActivity : AppCompatActivity(), View.OnClickListener {
     private var allQuestionList: MutableList<QnAResponse.Question>? = null
     private var questionsToAnswer: MutableList<QnAResponse.Question> = ArrayList()
 
+    private var customLoading: CustomLoading? = null
+
     var score: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityQuizDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        customLoading = CustomLoading(this)
+
+        val w = window
+        w.setFlags(
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+        )
 
         getQuestionsAndAnswers()
 
@@ -64,13 +77,11 @@ class QuizDetailsActivity : AppCompatActivity(), View.OnClickListener {
             viewModel.qnaResponse.observe(this@QuizDetailsActivity) {
                 when (it.status) {
                     DataStatus.Status.LOADING -> {
-                        Toast.makeText(this@QuizDetailsActivity, "Loading...", Toast.LENGTH_SHORT)
-                            .show()
+                        customLoading!!.showLoading("Loading...")
                     }
-
                     DataStatus.Status.SUCCESS -> {
+                        customLoading!!.dismissLoading()
                         Log.e("qna", it.data!!.questions.size.toString())
-                        //Toast.makeText(this@QuizDetailsActivity, it.data!!.questions[0].correctAnswer, Toast.LENGTH_SHORT).show()
                         totalQuestionToAnswer = it.data.questions.size.toLong()
                         allQuestionList = it.data.questions as MutableList<QnAResponse.Question>
                         pickQuestion()
@@ -79,7 +90,7 @@ class QuizDetailsActivity : AppCompatActivity(), View.OnClickListener {
                     }
 
                     DataStatus.Status.ERROR -> {
-
+                        customLoading!!.dismissLoading()
                         Toast.makeText(
                             this@QuizDetailsActivity,
                             "There is something wrong!",
@@ -109,6 +120,8 @@ class QuizDetailsActivity : AppCompatActivity(), View.OnClickListener {
                 btnOptionThree.visibility = View.GONE
                 btnOptionFour.visibility = View.GONE
             } else {
+                btnOptionThree.visibility = View.VISIBLE
+                btnOptionFour.visibility = View.VISIBLE
                 btnOptionThree.text = questionsToAnswer[questNum - 1].answers.C
                 btnOptionFour.text = questionsToAnswer[questNum - 1].answers.D
             }
@@ -121,12 +134,7 @@ class QuizDetailsActivity : AppCompatActivity(), View.OnClickListener {
                     .placeholder(R.drawable.ph_logo)
                     .into(binding.imgQstn);
             } else{
-                /*Glide
-                    .with(myFragment)
-                    .load(url)
-                    .centerCrop()
-                    .placeholder(R.drawable.loading_spinner)
-                    .into(myImageView);*/
+                binding.imgQstn.setBackgroundResource(R.drawable.ph_logo)
             }
 
 
@@ -151,7 +159,6 @@ class QuizDetailsActivity : AppCompatActivity(), View.OnClickListener {
                 @SuppressLint("NewApi")
                 override fun onFinish() {
                     canAnswer = false
-                    //notAnswered++
                     showNext()
                 }
             }
@@ -213,16 +220,20 @@ class QuizDetailsActivity : AppCompatActivity(), View.OnClickListener {
         if (canAnswer) {
 
             if (questionsToAnswer[currentQuestion - 1].correctAnswer == s) {
-                //correctAnswers++
                 score += questionsToAnswer[currentQuestion - 1].score
                 binding.txtScore.text = "Score: $score"
                 selectedAnswerButton.background =
                     resources.getDrawable(R.drawable.correct_ans_button, null)
 
             } else {
-                //wrongAnswers++
-                selectedAnswerButton.background =
-                    resources.getDrawable(R.drawable.wrong_ans_button_bg, null)
+                selectedAnswerButton.background = resources.getDrawable(R.drawable.wrong_ans_button_bg, null)
+                var correctButton : String = questionsToAnswer[currentQuestion - 1].correctAnswer
+                when (correctButton){
+                    "A" -> binding.btnOptionOne.background =resources.getDrawable(R.drawable.correct_ans_button, null)
+                    "B" -> binding.btnOptionTwo.background =resources.getDrawable(R.drawable.correct_ans_button, null)
+                    "C" -> binding.btnOptionThree.background =resources.getDrawable(R.drawable.correct_ans_button, null)
+                    "D" -> binding.btnOptionFour.background =resources.getDrawable(R.drawable.correct_ans_button, null)
+                }
 
             }
             canAnswer = false
@@ -249,13 +260,12 @@ class QuizDetailsActivity : AppCompatActivity(), View.OnClickListener {
             R.id.btnOptionTwo -> verifyAnswer(binding.btnOptionTwo, "B")
             R.id.btnOptionThree -> verifyAnswer(binding.btnOptionThree, "C")
             R.id.btnOptionFour -> verifyAnswer(binding.btnOptionFour, "D")
-            /*R.id.quizNextButton -> if (currentQuestion.toLong() == totalQuestionToAnswer) {
-                submitResults()*/
-            /*  else ->
-                 currentQuestion++
-                 loadQuestion(currentQuestion)
-                 //resetOptions()*/
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
     }
 
 }

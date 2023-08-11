@@ -43,5 +43,6 @@ class MainActivity : AppCompatActivity() {
             txtPoint.text = PreferenceHelper.retriveData(this@MainActivity, Constant.HIGHEST_SCORE)
         }
         
+
     }
 }

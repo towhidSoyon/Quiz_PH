@@ -25,13 +25,4 @@ class QnAViewModel  @Inject constructor(private val repository: QnARepository): 
             _qnaResponse.value = it
         }
     }
-
-    /*val qnAResponse: MutableLiveData<Response<QnAResponse>> = MutableLiveData()
-
-    fun getQna(){
-        viewModelScope.launch {
-            val response = repository.getQna()
-            qnAResponse.value = response
-        }
-    }*/
 }

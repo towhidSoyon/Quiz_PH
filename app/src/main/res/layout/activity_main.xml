@@ -19,64 +19,65 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/txtPH"
-        app:layout_constraintTop_toBottomOf="@id/logo"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_5sdp"
         android:text="Programming Hero"
         android:textColor="@color/white"
         android:textSize="@dimen/_24ssp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logo" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/txtQuiz"
-        app:layout_constraintTop_toBottomOf="@id/txtPH"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_2sdp"
         android:text="Quiz"
         android:textColor="@color/white"
         android:textSize="@dimen/_28ssp"
         android:textStyle="bold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtPH" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/txtHighestScore"
-        app:layout_constraintTop_toBottomOf="@id/txtQuiz"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_30sdp"
         android:text="Highest Score"
         android:textColor="@color/white"
         android:textSize="@dimen/_18ssp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtQuiz" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/txtPoint"
-        app:layout_constraintTop_toBottomOf="@id/txtHighestScore"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="00 point"
         android:textColor="@color/white"
         android:textSize="@dimen/_18ssp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtHighestScore" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnStart"
+        android:layout_width="@dimen/_180sdp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_30sdp"
         android:background="@drawable/button_bg"
         android:text="Start"
         android:textAllCaps="false"
+        android:textColor="@color/black"
         android:textSize="@dimen/_18ssp"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/txtPoint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="@dimen/_30sdp"
-        android:layout_width="@dimen/_180sdp"
-        android:layout_height="wrap_content"/>
+        app:layout_constraintTop_toBottomOf="@id/txtPoint" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

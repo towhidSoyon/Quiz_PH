@@ -12,7 +12,7 @@
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="@dimen/_50sdp"
         android:layout_height="@dimen/_50sdp"
-        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_20sdp"
         android:progress="100"
         android:progressDrawable="@drawable/circular_progress"
         android:visibility="invisible"
@@ -37,13 +37,13 @@
         android:id="@+id/layoutHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_53sdp"
+        android:layout_marginTop="@dimen/_5sdp"
         android:background="@color/white"
         android:orientation="horizontal"
         android:weightSum="2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/quizQuestionProgressbar">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txtQstnNo"
@@ -85,18 +85,19 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txtQstnPoint"
             android:layout_width="wrap_content"
-            android:textColor="@color/black"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_3sdp"
             android:text="100 point"
+            android:textColor="@color/black"
             android:textSize="@dimen/_16ssp" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imgQstn"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_180sdp"
+            android:layout_marginStart="@dimen/_5sdp"
             android:layout_marginTop="@dimen/_5sdp"
-            android:src="@drawable/ph_logo"
+            android:layout_marginEnd="@dimen/_5sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -104,14 +105,14 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txtQstn"
             android:layout_width="match_parent"
-            android:gravity="center"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_5sdp"
-            android:layout_marginEnd="@dimen/_5sdp"
-            android:textColor="@color/black"
             android:layout_marginTop="@dimen/_3sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
             android:layout_marginBottom="@dimen/_5sdp"
+            android:gravity="center"
             android:text="What is the question?"
+            android:textColor="@color/black"
             android:textSize="@dimen/_16ssp" />
     </LinearLayout>
 
